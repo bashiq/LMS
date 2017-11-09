@@ -1,0 +1,70 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 7, 2017, 10:18:24 PM
+    Author     : Bilal
+*/
+
+form.loginform {
+    border: 3px solid #f1f1f1;
+    width: 50%;
+    height: 50%;
+    margin: auto;
+}
+
+input.loginform[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button.loginform {
+    background-color: red;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button.loginform:hover {
+    opacity: 0.8;
+}
+
+.logimgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+img.logo {
+    width: 40%;
+    border-radius: 50%;
+}
+
+.loginContainer {
+    padding: 16px;
+}
+
+.w3-sidebar a {font-family: "Roboto", sans-serif}
+body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 15px;
+}
+th {
+  background-color: red;
+   color: black;  
+}
+
+tr:hover {background-color: #f5f5f5} 
+
+tr:nth-child(even) {background-color: #f2f2f2} 
