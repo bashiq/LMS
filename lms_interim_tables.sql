@@ -6,19 +6,25 @@ CREATE TABLE course (
     CONSTRAINT course_pk PRIMARY KEY (course_id)
 );
 
-CREATE TABLE user (
+CREATE TABLE user_role ( 
+    user_role_id INTEGER NOT NULL
+    GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    user_role_name VARCHAR(20) NOT NULL,
+    CONSTRAINT user_role_pk PRIMARY KEY (user_role_id)
+);
+
+CREATE TABLE t_user (
     user_id INTEGER NOT NULL
     GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     user_name VARCHAR(80) NOT NULL,
     email VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    student BOOLEAN NOT NULL,
-    instructor BOOLEAN NOT NULL,
+    role_id INTEGER NOT NULL REFERENCES user_role(user_role_id),
     CONSTRAINT user_pk PRIMARY KEY (user_id)
 );
 
 CREATE TABLE user_course (
-    user_id INTEGER NOT NULL REFERENCES user(user_id),
+    user_id INTEGER NOT NULL REFERENCES t_user(user_id),
     course_id INTEGER NOT NULL REFERENCES course(course_id),
     CONSTRAINT user_course_pk PRIMARY KEY (user_id, course_id)
 );
@@ -46,7 +52,7 @@ CREATE TABLE assignment (
 CREATE TABLE user_assignment (
     assignment_id INTEGER NOT NULL
     REFERENCES assignment(assignment_id),
-    user_id INTEGER NOT NULL REFERENCES user(user_id),
+    user_id INTEGER NOT NULL REFERENCES t_user(user_id),
     user_assignment_submission VARCHAR(4000) NOT NULL,
     score INTEGER,
     submitted BOOLEAN,
