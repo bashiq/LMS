@@ -44,7 +44,7 @@ CREATE TABLE assignment (
     assignment_name VARCHAR(255) NOT NULL,
     assignment_description VARCHAR(4000),
     assignment_type_id INTEGER REFERENCES assignment_type(assignment_type_id),
-    graded BOOLEAN NOT NULL,
+    is_graded INTEGER NOT NULL,
     potential_score INTEGER,
     CONSTRAINT assignment_pk PRIMARY KEY (assignment_id)
 );
@@ -55,7 +55,7 @@ CREATE TABLE user_assignment (
     user_id INTEGER NOT NULL REFERENCES t_user(user_id),
     user_assignment_submission VARCHAR(4000) NOT NULL,
     score INTEGER,
-    submitted BOOLEAN,
-    late BOOLEAN,
+    is_submitted INTEGER,
+    is_late INTEGER,
     CONSTRAINT user_assignment_pk PRIMARY KEY (assignment_id, user_id)
 );
