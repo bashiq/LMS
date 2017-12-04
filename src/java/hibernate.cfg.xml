@@ -43,16 +43,16 @@ Contributor(s):
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.DerbyDialect</property>
     <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.ClientDriver</property>
-    <property name="hibernate.connection.url">jdbc:derby://localhost:1527/sample</property>
-    <property name="hibernate.connection.username">app</property>
-    <property name="hibernate.connection.password">app</property>
-    <mapping resource="hiber/UserRole.hbm.xml"/>
-    <mapping resource="hiber/CourseInstructor.hbm.xml"/>
-    <mapping resource="hiber/Course.hbm.xml"/>
-    <mapping resource="hiber/UserCourse.hbm.xml"/>
-    <mapping resource="hiber/Assignment.hbm.xml"/>
-    <mapping resource="hiber/TUser.hbm.xml"/>
-    <mapping resource="hiber/UserAssignment.hbm.xml"/>
-    <mapping resource="hiber/AssignmentType.hbm.xml"/>
+    <property name="hibernate.connection.url">jdbc:derby://localhost:1527/lmsdb</property>
+    <property name="hibernate.connection.username">lms</property>
+    <property name="hibernate.connection.password">lms</property>
+    <mapping resource="orm/UserRole.hbm.xml"/>
+    <mapping resource="orm/CourseInstructor.hbm.xml"/>
+    <mapping resource="orm/Course.hbm.xml"/>
+    <mapping resource="orm/UserCourse.hbm.xml"/>
+    <mapping resource="orm/Assignment.hbm.xml"/>
+    <mapping resource="orm/TUser.hbm.xml"/>
+    <mapping resource="orm/UserAssignment.hbm.xml"/>
+    <mapping resource="orm/AssignmentType.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

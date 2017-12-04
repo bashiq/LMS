@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 2, 2017 12:13:48 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class name="orm.UserCourse" optimistic-lock="version" schema="LMS" table="USER_COURSE">
+    <composite-id class="orm.UserCourseId" name="id">
+      <key-property name="userId" type="int">
+        <column name="USER_ID"/>
+      </key-property>
+      <key-property name="courseId" type="int">
+        <column name="COURSE_ID"/>
+      </key-property>
+    </composite-id>
+  </class>
+</hibernate-mapping>

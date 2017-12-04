@@ -22,17 +22,18 @@
 
     <!-- ADD PERSISTENCE SUPPORT HERE (jpa, hibernate, etc) -->
     
-    <!-- Bilal Added this%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+<!--    Bilal Added this%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
      <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="mappingResources">
             <list>
                 <value>orm/Assignment.hbm.xml</value>
-                <value>orm/Assignment_Type.hbm.xml</value>
+                <value>orm/AssignmentType.hbm.xml</value>
                 <value>orm/Course.hbm.xml</value>
-                <value>orm/T_User.hbm.xml</value>
-                <value>orm/User_Assignment.hbm.xml</value>
-                <value>orm/User_Course.hbm.xml</value>
-                <value>orm/User_Role.hbm.xml</value>                 
+                <value>orm/CourseInstructor.hbm.xml</value>
+                <value>orm/TUser.hbm.xml</value>
+                <value>orm/UserAssignment.hbm.xml</value>
+                <value>orm/UserCourse.hbm.xml</value>
+                <value>orm/UserRole.hbm.xml</value>
             </list>
         </property>
         
@@ -40,19 +41,23 @@
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop>
                 <prop key="hibernate.connection.driver_class">org.apache.derby.jdbc.ClientDriver</prop>
-                <prop key="hibernate.connection.url">jdbc:derby://localhost:1527/sample</prop>
-                <prop key="hibernate.connection.username">app</prop>
-                <prop key="hibernate.connection.password">app</prop>
+                <prop key="hibernate.connection.url">jdbc:derby://localhost:1527/lmsdb</prop>
+                <prop key="hibernate.connection.username">lms</prop>
+                <prop key="hibernate.connection.password">lms</prop>
             </props>
         </property>
         
     </bean>
         
         
-    <bean id="userDAO" class="dao.CustomerDaoImpl">
+    <bean id="UserDao" class="dao.UserDaoImpl">
         <property name="factory" ref="sessionFactory" />
-    </bean> 
-    
-    -->
+    </bean>
+    <bean id="AssignmentDao" class="dao.AssignmentDaoImpl">
+        <property name="factory" ref="sessionFactory" />
+    </bean>
+    <bean id="GradeDao" class="dao.GradeDaoImpl">
+        <property name="factory" ref="sessionFactory" />
+    </bean>
 
 </beans>

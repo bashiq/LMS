@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 2, 2017 12:13:48 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class name="orm.UserAssignment" optimistic-lock="version" schema="LMS" table="USER_ASSIGNMENT">
+    <composite-id class="orm.UserAssignmentId" name="id">
+      <key-property name="assignmentId" type="int">
+        <column name="ASSIGNMENT_ID"/>
+      </key-property>
+      <key-property name="userId" type="int">
+        <column name="USER_ID"/>
+      </key-property>
+    </composite-id>
+    <property name="userAssignmentSubmission" type="string">
+      <column length="4000" name="USER_ASSIGNMENT_SUBMISSION" not-null="true"/>
+    </property>
+    <property name="score" type="java.lang.Integer">
+      <column name="SCORE"/>
+    </property>
+    <property name="isSubmitted" type="java.lang.Integer">
+      <column name="IS_SUBMITTED"/>
+    </property>
+    <property name="isLate" type="java.lang.Integer">
+      <column name="IS_LATE"/>
+    </property>
+  </class>
+</hibernate-mapping>

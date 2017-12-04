@@ -59,3 +59,9 @@ CREATE TABLE user_assignment (
     is_late INTEGER,
     CONSTRAINT user_assignment_pk PRIMARY KEY (assignment_id, user_id)
 );
+
+CREATE TABLE course_instructor (
+    course_id INTEGER NOT NULL REFERENCES course(course_id),
+    user_id INTEGER NOT NULL REFERENCES t_user(user_id),
+    CONSTRAINT course_instructor_pk PRIMARY KEY (course_id, user_id)
+);

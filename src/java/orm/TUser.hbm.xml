@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 2, 2017 12:13:48 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class name="orm.TUser" optimistic-lock="version" schema="LMS" table="T_USER">
+    <id name="userId" type="int">
+      <column name="USER_ID"/>
+      <generator class="assigned"/>
+    </id>
+    <property name="userName" type="string">
+      <column length="80" name="USER_NAME" not-null="true"/>
+    </property>
+    <property name="email" type="string">
+      <column length="50" name="EMAIL" not-null="true"/>
+    </property>
+    <property name="password" type="string">
+      <column name="PASSWORD" not-null="true"/>
+    </property>
+    <property name="roleId" type="int">
+      <column name="ROLE_ID" not-null="true"/>
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,4 +1,4 @@
-package hiber;
+package orm;
 // Generated Dec 2, 2017 12:13:47 AM by Hibernate Tools 4.3.1
 
 import javax.persistence.GeneratedValue;
