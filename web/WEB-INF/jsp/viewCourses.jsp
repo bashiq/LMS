@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -22,9 +23,11 @@
                 <h3 class="w3-wide"><b>LMS</b></h3>
             </div>
             <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-                <a href="#" class="w3-bar-item w3-button">Course 1</a>
+                <c:forEach items="${courses.courses}" var="value">
+                    <a href="#" class="w3-bar-item w3-button">${courses.getCourseName()}</a>
+                </c:forEach>
                 <a href="#" class="w3-bar-item w3-button">Course 2</a>               
-                <a href="#" class="w3-bar-item w3-button">Course 3</a>
+                
             </div>
             <a href="" class="w3-bar-item w3-button w3-padding">Log Off</a> 
         </nav>
@@ -35,15 +38,19 @@
             </div>
 
             <!--course objs-->
+
             <div class="w3-row-padding w3-padding-16">
-                <div class="w3-third w3-margin-bottom">
-                    <div class="w3-container w3-white">
-                        <h3>Course 1</h3>
-                        <h6 class="w3-opacity">Name</h6>
-                        <h6 class="w3-opacity">professor name?</h6>
-                        <button class="w3-button w3-block w3-black w3-margin-bottom">Goto Course1</button>
+
+                <c:forEach items="${courses.courses}" var="value">
+                    <div class="w3-third w3-margin-bottom">
+                        <div class="w3-container w3-white">
+                            <h3>Course</h3>
+                            <h6 class="w3-opacity">${courses.getCourseName()}</h6>
+                            <h6 class="w3-opacity">${courses.getSemester}professor name?</h6>
+                            <button class="w3-button w3-block w3-black w3-margin-bottom">Goto ${courses.getCourseName()}</button>
+                        </div>
                     </div>
-                </div>
+                </c:forEach>
                 <div class="w3-third w3-margin-bottom">
                     <div class="w3-container w3-white">
                         <h3>Course 2</h3>

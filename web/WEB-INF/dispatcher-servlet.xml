@@ -35,6 +35,7 @@
     -->
     <bean name="indexController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="viewAssignment" />
+          p:viewName="performLogin" />
+    <bean name="LoginControllerBean" class="controller.LoginController" />
 
 </beans>

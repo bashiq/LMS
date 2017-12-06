@@ -16,7 +16,7 @@
     <body>
         <h2>Login Form</h2>
 
-        <form action="/" class="loginform">
+        <form class="LoginControllerBean">
             <div class="logimgcontainer">
                 <img src="images/caplogo.jpg" alt="Capitol Technology University" class="logo">
             </div>

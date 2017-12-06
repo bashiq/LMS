@@ -23,7 +23,7 @@ import orm.UserAssignmentId;
  */
 public class AssignmentDaoImpl implements AssignmentDao {
     
-    private SessionFactory factory;
+    private SessionFactory factory;//if error occurs may need to be static
     
     public void setFactory(SessionFactory factory) {
         this.factory = factory;
