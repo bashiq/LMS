@@ -44,14 +44,14 @@
                     <th>Name</th>
                     <th>Role</th>
                 </tr>
-                <c:forEach items="${cart.cartItemsArr}" var="value">
+                <c:forEach items="${people}" var="value">
                     <tr>
-                        <td>${value.getQuantity()}</td>
-                        <td>${value.getUnitCost()}</td>
+                        <td>${value.getUsername()}</td>
+                        <td>${value.getRole()}</td>
                     </tr>
                 </c:forEach>
                  <tr>
-                    <td colspan="2"> Total?: <c:out value="${cart.getCartOrderTotal()}"/></td>
+                    <td colspan="2"> Total: <c:out value="${people.size()}"/></td>
                 </tr>
             </table>
 

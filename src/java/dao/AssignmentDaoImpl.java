@@ -51,7 +51,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
 
             for (int i = 0; i < assignment.size(); i++) {
                 ret.add((Assignment) assignment.get(i));
-                System.out.println(ret.get(i).getAssignmentName());
+                System.out.println("xyz "+ ret.get(i).getAssignmentName());
             }
             tx.commit();
         } catch (HibernateException e) {
@@ -87,6 +87,32 @@ public class AssignmentDaoImpl implements AssignmentDao {
             Assignment temp = new Assignment(0, courseId, assignmentName, assignmentDescription, assignmentTypeId, isGraded, potentialScore);
             int num = (int) session.save(temp);// dah = blah
             //System.out.println("num from create assignment is "+ num+ "temp value is "+ temp.getAssignmentId());
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+            return -1;
+        } finally {
+            session.close();
+            return 1;
+        }
+    }
+    
+    /**
+     *Method to update an assignment  
+     * @param at assignment object
+     * @return if successful 1 not -1
+     */
+    public int UpdateAssignment(Assignment at){
+          Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            session.update(at);// dah = blah could be  customerID = (Integer) session.save(customer);
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) {

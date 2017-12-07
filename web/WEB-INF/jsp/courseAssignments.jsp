@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,7 +20,7 @@
         <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
             <div class="w3-container w3-display-container w3-padding-16">
 
-                <a href=""><h3 class="w3-wide"><b>LMS</b></h3></a>
+                <a href="#"><h3 class="w3-wide"><b>LMS</b></h3></a>
             </div>
             <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
                 <a href="#" class="w3-bar-item w3-button">Assignments</a>
@@ -39,26 +40,32 @@
             <!--Conditional statement for professor vs student view-->
             <%if (true) {%><!-- if teacher create assignment button-->
             <form> 
-                <input type="submit" value="Create new Assignment"></form>
+                <input type="submit" value="Create new Assignment">
+            </form>
             <% } %>
             <br /><br />
              <table>
                                   
-                <c:forEach items="${cart.cartItemsArr}" var="value">
+                 <c:forEach items="${retAssignments}" var="value">
                     
                     <tr>
                         <td>
-                            Assignment 1 <br />
-                            Due 1/1/18 &nbsp; | -/50 points
+                            <form action ="#">
+                             ${value.getAssignmentName()}<br />
+                            Graded yet: ${value.getStringIsGraded()} &nbsp; | ${value.getPotentialScore()} potential points
+                            <input type="hidden" name = "assignmentObj" value="goto blah">
+                            <input type="hidden" name = "action" value="viewAnAssignment">
+                            <input type="hidden" name = "action" value="${value.getAssignmentId()}">
+                            </form>
                         </td>
                             
                     </tr>
-                    <tr> 
+                    <!--tr> 
                         <td>
                             Assignment 2 <br />
                             Due 1/1/18 &nbsp; | -/60 points
                         </td>
-                    </tr>
+                    </tr-->
                 </c:forEach>
             </table>
                     <br /><br />

@@ -79,6 +79,15 @@ public class Assignment  implements java.io.Serializable {
     public int getIsGraded() {
         return this.isGraded;
     }
+    /**
+     * returns a string representation of whether assignment has been graded
+     * @return 
+     */
+    public String getStringIsGraded(){
+        if(isGraded ==1)
+            return "Graded";
+        return "Not graded yet";
+    }
     
     public void setIsGraded(int isGraded) {
         this.isGraded = isGraded;

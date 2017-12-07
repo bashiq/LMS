@@ -21,4 +21,5 @@ public interface AssignmentDao {
     public int CreateAssignmentType(int CourseId, String type);
     public int SubmitAssignment(int assignmentId, int userId, String textSub, 
             int score, int isSubmitted, int isLate);
+      public int UpdateAssignment(Assignment at);
 }

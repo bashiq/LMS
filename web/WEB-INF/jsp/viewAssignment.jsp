@@ -33,31 +33,36 @@
         <div class="w3-main" style="margin-left:250px">
             <!-- Project Section -->
             <div class="w3-container w3-padding-32" id="projects">
-                <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Assignment 1</h3>
+                <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">${assignment.getAssignmentName()} Assignment 1</h3>
                 <!-- if student-->
-                <% if(false){%>
-                <h4>due blah</h4>
-                <h4>points</h4>
-                <h4>Assignment description</h4>
-                
-                <form> 
-                <input type="submit" value="Submit Assignment"></form>
-                <%} else{%>
-                    <form action="/action_page.php">
-  Assignment name:<br>
-  <input type="text" name="aname" value="">
-  <br>
-  Description:<br>
-  <input type="text" name="desc" value="">
-   <br>
-  Points:<br>
-  <input type="text" name="outof" value="">
-   <br>
-  Due:<br>
-  <input type="text" name="due" value="">
-  <br><br>
-  <input type="submit" value="Submit">
-</form>
+                <% if (true) {%>
+                <p><b>Points</b> ${Assignment.getPotentialScore()}</p>
+                <p><b>Submitting</b> in text box below</p>
+                <p>${value.getAssignmentName()} DESC</p>
+
+
+                <form action ="#"> 
+                    <textarea rows="8" cols="70" name="desc">hello</textarea>
+                    <br /><br />
+                    <input type="submit" value="Submit Assignment">
+                </form>
+                <%} else {%>
+                <form action="#">
+                    Assignment name:<br />
+                    <input type="text" name="aname" value="" />
+                    <br />
+                    Description:<br />
+                    <textarea rows="5" cols="70" name="desc">hello
+                    </textarea>
+                    <br />
+                    Points:<br/>
+                    <input type="text" name="outof" value="">
+                    <br />
+                    Due:<br/>
+                    <input type="text" name="due" value="">
+                    <br /><br />
+                    <input type="submit" value="Submit">
+                </form>
                 <%}%>
             </div>
 
