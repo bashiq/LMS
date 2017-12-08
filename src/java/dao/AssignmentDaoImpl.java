@@ -77,17 +77,18 @@ public class AssignmentDaoImpl implements AssignmentDao {
      * @return 1 if successful or -1 if not
      */
     @Override
-    public int CreateAssignment(int courseId, String assignmentName, String assignmentDescription,
-            int assignmentTypeId, int isGraded, int potentialScore) {
+    public int CreateAssignment(Assignment at) {
         Session session = factory.openSession();
         Transaction tx = null;
 
         try {
             tx = session.beginTransaction();//temp.getassignmentid will = assignment id
-            Assignment temp = new Assignment(0, courseId, assignmentName, assignmentDescription, assignmentTypeId, isGraded, potentialScore);
-            int num = (int) session.save(temp);// dah = blah
+            //Assignment temp = new Assignment(0, courseId, assignmentName, assignmentDescription, assignmentTypeId, isGraded, potentialScore);
+            at.setAssignmentId(0);
+            int num = (int) session.save(at);// dah = blah
             //System.out.println("num from create assignment is "+ num+ "temp value is "+ temp.getAssignmentId());
             tx.commit();
+            
         } catch (HibernateException e) {
             if (tx != null) {
                 tx.rollback();
@@ -202,15 +203,14 @@ public class AssignmentDaoImpl implements AssignmentDao {
      * @return 1 if successful -1 if not
      */
     @Override
-    public int SubmitAssignment(int assignmentId, int userId, String textSub, 
-            int score, int isSubmitted, int isLate) {
+    public int SubmitAssignment(UserAssignment ua) {
         Session session = factory.openSession();
         Transaction tx = null;
 
         try {
             tx = session.beginTransaction();
-            UserAssignment temp = new UserAssignment(new UserAssignmentId(assignmentId, userId), textSub, score, isSubmitted, isLate);
-            session.save(temp);// dah = blah could be  customerID = (Integer) session.save(customer);
+           // UserAssignment temp = new UserAssignment(new UserAssignmentId(assignmentId, userId), textSub, score, isSubmitted, isLate);
+            session.update(ua);// dah = blah could be  customerID = (Integer) session.save(customer);
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) {
@@ -223,4 +223,31 @@ public class AssignmentDaoImpl implements AssignmentDao {
             return 1;
         }
     }
+    
+    @Override
+    /**
+     * must be used before to create userassignments for all people in a course when new assignment is created
+     */
+    public int CreateUserAssignments(UserAssignment ua) {
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+           // UserAssignment temp = new UserAssignment(new UserAssignmentId(assignmentId, userId), textSub, score, isSubmitted, isLate);
+            session.save(ua);// dah = blah could be  customerID = (Integer) session.save(customer);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+            return -1;
+        } finally {
+            session.close();
+            return 1;
+        }
+    }
+    
+    
 }

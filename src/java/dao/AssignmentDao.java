@@ -8,6 +8,7 @@ package dao;
 import java.util.ArrayList;
 import orm.Assignment;
 import orm.AssignmentType;
+import orm.UserAssignment;
 
 /**
  *
@@ -15,11 +16,10 @@ import orm.AssignmentType;
  */
 public interface AssignmentDao {
     public ArrayList<Assignment> GetAssignments(int CourseID);
-    public int CreateAssignment(int courseId, String assignmentName, String assignmentDescription,
-            int assignmentTypeId, int isGraded, int potentialScore);
+    public int CreateAssignment(Assignment at);
     public ArrayList<AssignmentType> GetAssignmentTypes(int courseId);
     public int CreateAssignmentType(int CourseId, String type);
-    public int SubmitAssignment(int assignmentId, int userId, String textSub, 
-            int score, int isSubmitted, int isLate);
-      public int UpdateAssignment(Assignment at);
+    public int SubmitAssignment(UserAssignment ua);
+    public int UpdateAssignment(Assignment at);
+    public int CreateUserAssignments(UserAssignment ua);
 }

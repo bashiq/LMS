@@ -27,7 +27,7 @@
                     <a href="#" class="w3-bar-item w3-button">${courses.getCourseName()}</a>
                 </c:forEach>
                 <a href="#" class="w3-bar-item w3-button">Course 2</a>               
-                
+
             </div>
             <a href="" class="w3-bar-item w3-button w3-padding">Log Off</a> 
         </nav>
@@ -42,17 +42,22 @@
             <div class="w3-row-padding w3-padding-16">
 
                 <c:forEach items="${courses.courses}" var="value">
-                    <div class="w3-third w3-margin-bottom">
-                        <div class="w3-container w3-white">
-                            <h3>Course</h3>
-                            <h6 class="w3-opacity">${courses.getCourseName()}</h6>
-                            <h6 class="w3-opacity">${courses.getSemester}professor name?</h6>
-                            <button class="w3-button w3-block w3-black w3-margin-bottom">Goto ${courses.getCourseName()}</button>
+                    <form action ="#" class="#">
+                        <div class="w3-third w3-margin-bottom">
+                            <div class="w3-container w3-white">
+                                <h3>Course</h3>
+                                <h6 class="w3-opacity">${courses.getCourseName()}</h6>
+                                <h6 class="w3-opacity">${courses.getSemester}professor name?</h6>
+                                
+                                <button class="w3-button w3-block w3-black w3-margin-bottom">Goto ${courses.getCourseName()}</button>
+                                <input type="hidden" name ="action" value="gotoCourse">
+                                <input type="hidden" name ="courseSelection" value="${courses.getCourseId()}">
+                            </div>
                         </div>
-                    </div>
+                    </form>    
                 </c:forEach>
                 <div class="w3-third w3-margin-bottom">
-                    <div class="w3-container w3-white">
+                    <div class="w3-container w3-white"><!-- delete once courses view is working-->
                         <h3>Course 2</h3>
                         <h6 class="w3-opacity">Name</h6>
                         <h6 class="w3-opacity">professor name?</h6>

@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -39,53 +40,55 @@
 
             <!--Conditional statement for professor vs student view-->
             <%if (true) {%>
-             <table>
+            <table>
 
                 <tr>
                     <th>Stu Name</th>
-                    <th>Assignment 1<br />Out of 10</th>
-                    <th>Assignment 2<br />Out of 10</th>
-                    <th>Assignment 3<br />Out of 10</th>
+                        <c:forEach items="${assignmentNameloop}" var="value">
+                        <th>Assignment 1<br />Out of 10</th>
+                        <th>Assignment 2<br />Out of 10</th>
+                        <th>Assignment 3<br />Out of 10</th>
+                        </c:forEach>
                     <th> Total</th>
                 </tr>
-                <c:forEach items="${cart.cartItemsArr}" var="value">
+                <c:forEach items="${userloop}" var="value">
                     <tr>
                         <td>John Doe</td>
-                        <td><form> <input type="text" size="3" name = ass1JoeDoe> <input type="submit" value="update"></form></td>
-                        <td><form> <input type="text" size="3" name = ass2JoeDoe> <input type="submit" value="update"></form></td>
-                        <td><form> <input type="text" size="3" name = ass3JoeDoe> <input type="submit" value="update"></form></td>
-                        <td>93%</td>
+                        <c:forEach items="${assignmentsloopforuser}" var="value">
+                            <td><form> <input type="text" size="3" name = ass1JoeDoe> <input type="submit" value="update"></form></td>
+                            <td><form> <input type="text" size="3" name = ass2JoeDoe> <input type="submit" value="update"></form></td>
+                            <td><form> <input type="text" size="3" name = ass3JoeDoe> <input type="submit" value="update"></form></td>
+                            <td>93%</td>
+                        </c:forEach>
                     </tr>
                 </c:forEach>
             </table>
-                    <br /><br />
-            
-            
+            <br /><br />
+
+
             <!--Table user grades goes here-->
             <%} else {%>
             <table>
 
                 <tr>
                     <th>Name</th>
-                    <th>Due</th>
                     <th>Score</th>
                     <th>Out of</th>
                 </tr>
-                <c:forEach items="${cart.cartItemsArr}" var="value">
+                <c:forEach items="${totalassignmentobj}" var="value">
                     <tr>
-                        <td>${value.getQuantity()}</td>
-                        <td>${value.getUnitCost()}</td>
-                        <td>${value.getQuantity()}</td>
-                        <td>2</td>
+                        <td>${value.blah}</td>
+                        <td>${value.blah}</td>
+                        <td>${value.blah}</td>
                     </tr>
                 </c:forEach>
                  <tr>
                     <td colspan="2"> Total: <c:out value="${cart.getCartOrderTotal()}"/></td>
-                <td>percentage</td>
-                <td>900/1000</td>
+                    <td>percentage</td>
+                    <td>${blah}900/1000</td>
                 </tr>
             </table>
-                <%}%>
+            <%}%>
         </div>
     </body>
 </html>
