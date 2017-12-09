@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -39,24 +40,31 @@ public class UserDaoImpl implements UserDao{
      */
     @Override
     public TUser Login(String username, String pass) {
+        boolean flag = true;
         Session session = factory.openSession();
         Transaction tx = null;
         TUser returnUser = new TUser(), tempuser = new TUser();
         try {
             tx = session.beginTransaction();
-            List users = session.createQuery("FROM TUser").list();
-            for (Iterator iterator = users.iterator(); iterator.hasNext();) {
+          //  List users = session.createQuery("FROM TUser").list();
+            
+            Query query = session.createQuery("FROM TUser where userName =:code1");
+            query.setParameter("code1", username);
+            List user = query.list();
+            for (Iterator iterator = user.iterator(); iterator.hasNext();) {
                 tempuser = (TUser) iterator.next();
-
-                if (tempuser.getUserName().equals(username) && tempuser.getPassword().equals(pass)) {
+                System.out.println("temppass "+ tempuser.getPassword());
+                if(tempuser.getUserId()==0)
+                    flag = false;
+                if (tempuser.getPassword().equals(pass)) {
                     returnUser = tempuser;
                 } else {
-                    returnUser.setUserId(-1);
-                    returnUser.setRoleId(-1);
+                    flag = false;
                 }
+            
+            
             }
             tx.commit();
-
         } catch (HibernateException e) {
             if (tx != null) {
                 tx.rollback();
@@ -64,6 +72,11 @@ public class UserDaoImpl implements UserDao{
             e.printStackTrace();
         } finally {
             session.close();
+            if(flag == false){
+                returnUser.setUserId(-1);
+                returnUser.setRoleId(-1);
+            }
+           // System.out.println("user id is "+ returnUser.getUserId());
             return returnUser;
         }
     }

@@ -23,8 +23,8 @@
                 <h3 class="w3-wide"><b>LMS</b></h3>
             </div>
             <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-                <c:forEach items="${courses.courses}" var="value">
-                    <a href="#" class="w3-bar-item w3-button">${courses.getCourseName()}</a>
+                <c:forEach items="${courses}" var="value">
+                    <a href="#" class="w3-bar-item w3-button">${value.getCourseName()}</a>
                 </c:forEach>
                 <a href="#" class="w3-bar-item w3-button">Course 2</a>               
 
@@ -41,29 +41,21 @@
 
             <div class="w3-row-padding w3-padding-16">
 
-                <c:forEach items="${courses.courses}" var="value">
+                <c:forEach items="${courses}" var="value">
                     <form action ="#" class="#">
                         <div class="w3-third w3-margin-bottom">
                             <div class="w3-container w3-white">
                                 <h3>Course</h3>
-                                <h6 class="w3-opacity">${courses.getCourseName()}</h6>
-                                <h6 class="w3-opacity">${courses.getSemester}professor name?</h6>
+                                <h6 class="w3-opacity">${value.getCourseName()}</h6>
+                                <h6 class="w3-opacity">${value.getSemester()}</h6>
                                 
-                                <button class="w3-button w3-block w3-black w3-margin-bottom">Goto ${courses.getCourseName()}</button>
+                                <button class="w3-button w3-block w3-black w3-margin-bottom">Goto ${value.getCourseName()}</button>
                                 <input type="hidden" name ="action" value="gotoCourse">
-                                <input type="hidden" name ="courseSelection" value="${courses.getCourseId()}">
+                                <input type="hidden" name ="courseSelection" value="${value.getCourseId()}">
                             </div>
                         </div>
                     </form>    
                 </c:forEach>
-                <div class="w3-third w3-margin-bottom">
-                    <div class="w3-container w3-white"><!-- delete once courses view is working-->
-                        <h3>Course 2</h3>
-                        <h6 class="w3-opacity">Name</h6>
-                        <h6 class="w3-opacity">professor name?</h6>
-                        <button class="w3-button w3-block w3-black w3-margin-bottom">Goto Course2</button>
-                    </div>
-                </div>
 
             </div>
         </div>

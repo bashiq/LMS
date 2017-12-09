@@ -26,7 +26,7 @@ import org.hibernate.cfg.Configuration;
 public class DBBeanImpl implements DBBean {
 
     private static SessionFactory factory;
-    
+
     public void setFactory(SessionFactory factory) {
         this.factory = factory;
     }
@@ -40,6 +40,8 @@ public class DBBeanImpl implements DBBean {
         }
 
         DBBeanImpl d = new DBBeanImpl();
+        TUser tu = d.Login("cap", "cap");
+        System.out.println(tu.getRoleId());
         // d.listCustomers();
         // d.GetCourses(1);
         //d.GetPeople(1);
@@ -49,13 +51,11 @@ public class DBBeanImpl implements DBBean {
         //d.GetAssignmentTypes(1);
     }
 
-    
-
     /**
      * method to log people in
      *
      * @param username
-     * @param email for user 
+     * @param email for user
      * @param pass password of user
      * @return -1 if invalid username or pass word else returns TUser object
      * containing role and userID
@@ -65,20 +65,27 @@ public class DBBeanImpl implements DBBean {
         Session session = factory.openSession();
         Transaction tx = null;
         TUser returnUser = new TUser(), tempuser = new TUser();
+        boolean flag = true;
         try {
             tx = session.beginTransaction();
-            List users = session.createQuery("FROM TUser").list();
-            for (Iterator iterator = users.iterator(); iterator.hasNext();) {
+            //  List users = session.createQuery("FROM TUser").list();
+
+            Query query = session.createQuery("FROM TUser where userName =:code1");
+            query.setParameter("code1", username);
+            List user = query.list();
+            for (Iterator iterator = user.iterator(); iterator.hasNext();) {
                 tempuser = (TUser) iterator.next();
 
-                if (tempuser.getUserName().equals(username) && tempuser.getPassword().equals(pass)) {
+                if (tempuser.getPassword().equals(pass)) {
                     returnUser = tempuser;
                 } else {
-                    returnUser.setUserId(-1);
-                    returnUser.setRoleId(-1);
+                    flag = false;
                 }
+
             }
+        
             tx.commit();
+            
 
         } catch (HibernateException e) {
             if (tx != null) {
@@ -87,13 +94,17 @@ public class DBBeanImpl implements DBBean {
             e.printStackTrace();
         } finally {
             session.close();
+            if(!flag){
+                returnUser.setUserId(-1);
+                returnUser.setRoleId(-1);
+            }
             return returnUser;
         }
     }
 
     /**
-     * When a user successfully logs in the controller will retrieve which courses
-     * they are enrolled in
+     * When a user successfully logs in the controller will retrieve which
+     * courses they are enrolled in
      *
      * @param id userid
      * @return arraylist of courses
@@ -262,6 +273,7 @@ public class DBBeanImpl implements DBBean {
 
     /**
      * Method to get assignment types created by professor
+     *
      * @param courseId the courseid needed to return items
      * @return arraylist of the object assignmnet type
      */
@@ -300,9 +312,8 @@ public class DBBeanImpl implements DBBean {
      *
      * @param CourseId course id
      * @param type string of the name ex. classwork, quiz...
-     * @return if successful 1 if not -1 
+     * @return if successful 1 if not -1
      */
-
     @Override
     public int CreateAssignmentType(int CourseId, String type) {
         Session session = factory.openSession();
@@ -327,6 +338,7 @@ public class DBBeanImpl implements DBBean {
 
     /**
      * Method for a user to submit assignment
+     *
      * @param assignmentId
      * @param userId
      * @param textSub answer or solution to assignment
@@ -336,7 +348,7 @@ public class DBBeanImpl implements DBBean {
      * @return 1 if successful -1 if not
      */
     @Override
-    public int SubmitAssignment(int assignmentId, int userId, String textSub, 
+    public int SubmitAssignment(int assignmentId, int userId, String textSub,
             int score, int isSubmitted, int isLate) {
         Session session = factory.openSession();
         Transaction tx = null;
@@ -357,9 +369,10 @@ public class DBBeanImpl implements DBBean {
             return 1;
         }
     }
-    
+
     /**
      * method for updating and to grade a student assignment
+     *
      * @param ua userassignment object needs to be passed in
      * @return 1 if sucessful -1 if not
      */
@@ -386,8 +399,8 @@ public class DBBeanImpl implements DBBean {
     }
 
     /**
-     * used to get grades for A STUDENT
-     * will need to sort in controller or in a seperate class
+     * used to get grades for A STUDENT will need to sort in controller or in a
+     * seperate class
      *
      * @param userID
      * @param courseID
@@ -395,7 +408,7 @@ public class DBBeanImpl implements DBBean {
      * @return arraylist of userassignments for A student
      */
     @Override
-    public ArrayList<UserAssignment> GetGrades(int userID, int courseID, 
+    public ArrayList<UserAssignment> GetGrades(int userID, int courseID,
             ArrayList<Assignment> at) {
         ArrayList<UserAssignment> ret = new ArrayList<UserAssignment>();
         Session session = factory.openSession();
@@ -407,10 +420,10 @@ public class DBBeanImpl implements DBBean {
             query.setParameter("code", userID);
             List userAssignments = query.list();
             for (int i = 0; i < userAssignments.size(); i++) {
-                
+
                 UserAssignment ua = (UserAssignment) userAssignments.get(i);
-                for(int j =0; j < at.size(); j++){
-                    if(at.get(j).getCourseId()== courseID){
+                for (int j = 0; j < at.size(); j++) {
+                    if (at.get(j).getCourseId() == courseID) {
                         ret.add(ua);
                     }
                 }
@@ -444,14 +457,14 @@ public class DBBeanImpl implements DBBean {
             tx = session.beginTransaction();
 
             List userAssignments = session.createQuery("FROM UserAssignment").list();
-           Query query = session.createQuery("from Assignment where CoursetId = :code ");
+            Query query = session.createQuery("from Assignment where CoursetId = :code ");
             query.setParameter("code", CourseID);
             List assignments = query.list();
             for (int i = 0; i < userAssignments.size(); i++) {
                 UserAssignment ua = (UserAssignment) userAssignments.get(i);
-                for(int j = 0; j< assignments.size(); j++){
+                for (int j = 0; j < assignments.size(); j++) {
                     Assignment ta = (Assignment) assignments.get(j);
-                    if(ta.getAssignmentId() == ua.getId().getAssignmentId()){
+                    if (ta.getAssignmentId() == ua.getId().getAssignmentId()) {
                         ret.add(ua);
                     }
                 }

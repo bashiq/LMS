@@ -6,22 +6,26 @@
 package controller;
 
 import dao.UserDao;
+import java.lang.annotation.Annotation;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.mvc.Controller;
+
 import orm.TUser;
 
 /**
  *
  * @author Damien
  */
-
-public class LoginController  implements Controller{// is extends AbstractControlller or this?------------------------
+public class LoginController implements Controller {// is extends AbstractControlller or this?------------------------
+    
+    private UserDao ud;
+    
+    public void setUserDao1(UserDao UserDao){
+        this.ud = UserDao;
+    }
 
  //    @RequestMapping( method = RequestMethod.POST)
 //    @RequestMapping(value = "/login")
@@ -31,19 +35,30 @@ public class LoginController  implements Controller{// is extends AbstractContro
         //return rmav;
 //    }
     
-
-    @Override   //this should be post so password and username cant be seen in url. Not really neccesarry
+    
+   // @RequestMapping(value = "/login")
+//   public ModelAndView loggs() {
+//        System.out.println("here1");
+//      return new ModelAndView("login", "blank", new Object());
+//   }
+   
 	public ModelAndView handleRequest(HttpServletRequest request,HttpServletResponse response) throws Exception {
             //System.out.println(request.getParameter("username"));
             String username = request.getParameter("username");
-            String pass = request.getParameter("password");
+            String pass = request.getParameter("password")+"";
+            System.out.println("pass is |" + pass +"| end");
             
              HttpSession session = request.getSession();
-            Object objBean = session.getAttribute("UserDao");
-            UserDao ud = (UserDao) objBean; 
+//            Object objBean = session.getAttribute("UserDao");
+//            UserDao ud = (UserDao) objBean; 
             TUser tuser = ud.Login(username, pass);
-            if(tuser.getUserId() ==-1){
-            //return new ModelAndView("performLogin", "invalidLogin", "Invalid Username or password. Try Again");
+            System.out.println("userid is "+ tuser.getUserId());
+            if(tuser.getUserId() ==0 || tuser.getUserId() ==-1){
+                if(pass.equals("null")){
+                    System.out.println("in here");
+                    return new ModelAndView("performLogin", "invalidLogin", "");
+                }
+            return new ModelAndView("performLogin", "invalidLogin", "Invalid Username or password. Try Again");
                 }
             
             //need to save tuser in a session var. Would that be done initialized in appContext?-------------------
@@ -51,5 +66,4 @@ public class LoginController  implements Controller{// is extends AbstractContro
             return new ModelAndView("viewCourses", "courses", ud.GetCourses(tuser.getUserId()));
             
         }
-        
 }
