@@ -4,7 +4,9 @@
     Author     : Bilal
 --%>
 
+<%@page import="orm.TUser"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -33,33 +35,37 @@
         <div class="w3-main" style="margin-left:250px">
             <!-- Project Section -->
             <div class="w3-container w3-padding-32" id="projects">
-                <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">${assignment.getAssignmentName()} Assignment 1</h3>
+                <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">${assignment.getAssignmentName()} </h3>
+
+                <%
+                    TUser tu = (TUser) session.getAttribute("tUser");
+                %>
                 <!-- if student-->
-                <% if (true) {%>
-                <p><b>Points</b> ${Assignment.getPotentialScore()}</p>
+                <% if (tu.getRoleId() == 1) {%>
+                <p><b>Points</b> ${assignment.getPotentialScore()}</p>
                 <p><b>Submitting</b> in text box below</p>
-                <p>${value.getAssignmentName()} DESC</p>
+                <p>${assignment.getAssignmentDescription()} </p>
 
 
                 <form action ="#"> 
-                    <textarea rows="8" cols="70" name="desc">hello</textarea>
+                    <textarea rows="8" cols="70" name="desc"></textarea>
                     <br /><br />
                     <input type="submit" value="Submit Assignment">
                 </form>
                 <%} else {%>
                 <form action="#">
                     Assignment name:<br />
-                    <input type="text" name="aname" value="" />
+                    <input type="text" name="assignmentName" value="${assignment.getAssignmentName()}" />
                     <br />
                     Description:<br />
-                    <textarea rows="5" cols="70" name="desc">hello
+                    <textarea rows="5" cols="70" name="description">${assignment.getAssignmentDescription()}
                     </textarea>
                     <br />
                     Points:<br/>
-                    <input type="text" name="outof" value="">
+                    <input type="text" name="potentialScore" value="${assignment.getPotentialScore()}">
                     <br />
-                    Due:<br/>
-                    <input type="text" name="due" value="">
+                    <!--Due:<br/>
+                    <input type="text" name="due" value=""-->
                     <br /><br />
                     <input type="submit" value="Submit">
                 </form>

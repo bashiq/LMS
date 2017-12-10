@@ -17,4 +17,5 @@ public interface UserDao {
     public TUser Login(String username, String pass);
     public ArrayList<Course> GetCourses(int id);
     public ArrayList<People> GetPeople(int courseId);
+    public ArrayList<TUser> GetPeople2(int courseId);
 }

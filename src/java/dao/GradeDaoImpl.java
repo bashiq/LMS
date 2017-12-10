@@ -20,14 +20,16 @@ import orm.UserAssignment;
  * @author Damien
  */
 public class GradeDaoImpl implements GradeDao {
+
     private SessionFactory factory;
-    
+
     public void setFactory(SessionFactory factory) {
         this.factory = factory;
     }
-    
+
     /**
      * method for updating and to grade a student assignment
+     *
      * @param ua userassignment object needs to be passed in
      * @return 1 if sucessful -1 if not
      */
@@ -54,8 +56,8 @@ public class GradeDaoImpl implements GradeDao {
     }
 
     /**
-     * used to get grades for A STUDENT
-     * will need to sort in controller or in a seperate class
+     * used to get grades for A STUDENT will need to sort in controller or in a
+     * seperate class
      *
      * @param userID
      * @param courseID
@@ -63,24 +65,21 @@ public class GradeDaoImpl implements GradeDao {
      * @return arraylist of userassignments for A student
      */
     @Override
-    public ArrayList<UserAssignment> GetGrades(int userID, int courseID, 
-            ArrayList<Assignment> at) {
-        ArrayList<UserAssignment> ret = new ArrayList<UserAssignment>();
+    public UserAssignment GetGrade(int userID, int courseID, int assignmentID) {
+        UserAssignment ret = new UserAssignment();
         Session session = factory.openSession();
         Transaction tx = null;
 
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery("from UserAssignment where UserId = :code ");
-            query.setParameter("code", userID);
+            Query query = session.createQuery("from UserAssignment");
             List userAssignments = query.list();
             for (int i = 0; i < userAssignments.size(); i++) {
-                
+
                 UserAssignment ua = (UserAssignment) userAssignments.get(i);
-                for(int j =0; j < at.size(); j++){
-                    if(at.get(j).getCourseId()== courseID){
-                        ret.add(ua);
-                    }
+                if (ua.getId().getAssignmentId() == assignmentID && ua.getId().getUserId() == userID) {
+                    ret = ua;
+                    System.out.println("ingrades " + ua.getId().getAssignmentId());
                 }
             }
             tx.commit();
@@ -112,14 +111,14 @@ public class GradeDaoImpl implements GradeDao {
             tx = session.beginTransaction();
 
             List userAssignments = session.createQuery("FROM UserAssignment").list();
-           Query query = session.createQuery("from Assignment where CoursetId = :code ");
+            Query query = session.createQuery("from Assignment where courseId = :code ");
             query.setParameter("code", CourseID);
             List assignments = query.list();
             for (int i = 0; i < userAssignments.size(); i++) {
                 UserAssignment ua = (UserAssignment) userAssignments.get(i);
-                for(int j = 0; j< assignments.size(); j++){
+                for (int j = 0; j < assignments.size(); j++) {
                     Assignment ta = (Assignment) assignments.get(j);
-                    if(ta.getAssignmentId() == ua.getId().getAssignmentId()){
+                    if (ta.getAssignmentId() == ua.getId().getAssignmentId()) {
                         ret.add(ua);
                     }
                 }

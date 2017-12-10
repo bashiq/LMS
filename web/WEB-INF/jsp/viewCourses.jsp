@@ -35,11 +35,17 @@
             <!-- Project Section -->
             <div class="w3-container w3-padding-32" id="projects">
                 <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Courses</h3>
+                <h4> Hello ${tUser.userName}</h4>
             </div>
+            
+            
+
 
             <!--course objs-->
 
             <div class="w3-row-padding w3-padding-16">
+                
+                
 
                 <c:forEach items="${courses}" var="value">
                     <form action ="#" class="#">

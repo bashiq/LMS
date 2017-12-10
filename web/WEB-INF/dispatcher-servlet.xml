@@ -41,6 +41,8 @@
     
     <bean name="login.htm" class="controller.LoginController" >
         <property name ="UserDao1" ref="UserDao" />
+        <property name ="AssignmentDao1" ref="AssignmentDao" />
+        <property name ="GradeDao1" ref="GradeDao" />
     </bean>
 
 </beans>

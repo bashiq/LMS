@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -46,7 +47,7 @@
                 </tr>
                 <c:forEach items="${people}" var="value">
                     <tr>
-                        <td>${value.getUsername()}</td>
+                        <td>${value.getUserName()}</td>
                         <td>${value.getRole()}</td>
                     </tr>
                 </c:forEach>

@@ -12,7 +12,9 @@ import orm.UserAssignment;
 import orm.UserAssignmentId;
 
 /**
- *Class that combines Assignment TUser and UserAssignment that can be used in grades
+ * Class that combines Assignment TUser and UserAssignment that can be used in
+ * grades
+ *
  * @author Bilal
  */
 public class TotalAssignment {
@@ -33,8 +35,7 @@ public class TotalAssignment {
     private double studentOverallGrade;
 
     private ArrayList<Assignment> assignment;
-    private TUser tUser;
-    private ArrayList<UserAssignment> userAssign;
+    private ArrayList<TAssign> tassign;
 
     /**
      * Do not use this Constuctor
@@ -44,17 +45,30 @@ public class TotalAssignment {
 
     /**
      * Use this constructor for best results
+     *
      * @param at assignment obj
      * @param tu tUser obj
      * @param ua userassignment obj
      */
-    public TotalAssignment(ArrayList<Assignment> at, TUser tu, ArrayList<UserAssignment> ua, int studentOverallGrade) {
+    public TotalAssignment(ArrayList<Assignment> at, double studentOverallGrade) {
         assignment = at;
-        this.tUser = tu;
-        this.userAssign = ua;
         this.studentOverallGrade = studentOverallGrade;
-       // setEverything();
+        // setEverything();
     }
+
+    public void setStudentOverallGrade(double studentOverallGrade) {
+        this.studentOverallGrade = studentOverallGrade;
+    }
+
+    public void setAssignment(ArrayList<Assignment> assignment) {
+        this.assignment = assignment;
+    }
+
+    public void setTassign(ArrayList<TAssign> tassign) {
+        this.tassign = tassign;
+    }
+    
+    
 
 //    private void setEverything() {
 //        userId = tUser.getUserId();
@@ -70,7 +84,6 @@ public class TotalAssignment {
 //        studentScore = userAssign.getScore();
 //        hasUserSubmitted = userAssign.getIsSubmitted();
 //    }
-
     public double getStudentOverallGrade() {
         return studentOverallGrade;
     }
@@ -79,14 +92,11 @@ public class TotalAssignment {
         return assignment;
     }
 
-    public ArrayList<UserAssignment> getUserAssign() {
-        return userAssign;
+    public ArrayList<TAssign> getTassign() {
+        return tassign;
     }
-    
+
+
     
 
-    public TUser gettUser() {
-        return tUser;
-    }
-    
 }

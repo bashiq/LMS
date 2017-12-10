@@ -5,65 +5,140 @@
  */
 package controller;
 
+import dao.AssignmentDao;
+import dao.GradeDao;
+import dao.TAssign;
+import dao.TotalAssignment;
 import dao.UserDao;
-import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
+import orm.Assignment;
 
 import orm.TUser;
+import orm.UserAssignment;
 
 /**
  *
  * @author Damien
  */
 public class LoginController implements Controller {// is extends AbstractControlller or this?------------------------
-    
+
     private UserDao ud;
-    
-    public void setUserDao1(UserDao UserDao){
+    private AssignmentDao ad;
+    private GradeDao gd;
+
+    public void setUserDao1(UserDao UserDao) {
         this.ud = UserDao;
     }
 
- //    @RequestMapping( method = RequestMethod.POST)
+    public void setAssignmentDao1(AssignmentDao d) {
+        ad = d;
+    }
+
+    public void setGradeDao1(GradeDao g) {
+        gd = g;
+    }
+    //    @RequestMapping( method = RequestMethod.POST)
 //    @RequestMapping(value = "/login")
 //    public ModelAndView login(HttpServletRequest request, HttpServletResponse response){
 //        ModelAndView rmav = new ModelAndView();
 //        System.out.println("Username " + request.getParameter("username"));
-        //return rmav;
+    //return rmav;
 //    }
-    
-    
-   // @RequestMapping(value = "/login")
+
+    // @RequestMapping(value = "/login")
 //   public ModelAndView loggs() {
 //        System.out.println("here1");
 //      return new ModelAndView("login", "blank", new Object());
 //   }
-   
-	public ModelAndView handleRequest(HttpServletRequest request,HttpServletResponse response) throws Exception {
-            //System.out.println(request.getParameter("username"));
-            String username = request.getParameter("username");
-            String pass = request.getParameter("password")+"";
-            System.out.println("pass is |" + pass +"| end");
-            
-             HttpSession session = request.getSession();
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //System.out.println(request.getParameter("username"));
+        String username = request.getParameter("username");
+        String pass = request.getParameter("password") + "";
+        System.out.println("pass is |" + pass + "| end");
+
+        HttpSession session = request.getSession();
 //            Object objBean = session.getAttribute("UserDao");
 //            UserDao ud = (UserDao) objBean; 
-            TUser tuser = ud.Login(username, pass);
-            System.out.println("userid is "+ tuser.getUserId());
-            if(tuser.getUserId() ==0 || tuser.getUserId() ==-1){
-                if(pass.equals("null")){
-                    System.out.println("in here");
-                    return new ModelAndView("performLogin", "invalidLogin", "");
-                }
+        TUser tuser = ud.Login(username, pass);
+        System.out.println("userid is " + tuser.getUserId());
+        if (tuser.getUserId() == 0 || tuser.getUserId() == -1) {
+            if (pass.equals("null")) {
+                System.out.println("in here");
+                return new ModelAndView("performLogin", "invalidLogin", "");
+            }
             return new ModelAndView("performLogin", "invalidLogin", "Invalid Username or password. Try Again");
-                }
-            
-            //need to save tuser in a session var. Would that be done initialized in appContext?-------------------
-            session.setAttribute("tUser", tuser);
-            return new ModelAndView("viewCourses", "courses", ud.GetCourses(tuser.getUserId()));
-            
         }
+
+        //need to save tuser in a session var. Would that be done initialized in appContext?-------------------
+        session.setAttribute("tUser", tuser);
+        return new ModelAndView("viewCourses", "courses", ud.GetCourses(tuser.getUserId()));
+
+        //System.out.println("tuserarr " + tuserarr.get(0).getUserName());
+        
+    }
+
+    public void PeopleMethod() {
+        //return new ModelAndView("coursePeople", "people", ud.GetPeople(WHATEVER COURSEID IS));
+    }
+
+    public void courseassignmentmethod() {
+        //return new ModelAndView("courseAssignments", "retAssignments", ad.GetAssignments(1));
+    }
+
+    public void anAssignmentMethod() {
+//            ArrayList<Assignment>  aa =ad.GetAssignments(1);
+//            Assignment assign = aa.get(0);
+//            return new ModelAndView("viewAssignment", "assignment", assign);
+    }
+
+    public void toviewGrades() {
+
+//        TUser tu = (TUser) session.getAttribute("tuser");
+//        if (tu.getRoleId() == 1) {
+//            ArrayList<Assignment> assign = ad.GetAssignments(1);
+//            ArrayList<TUser> tuserarr = ud.GetPeople2(1);
+//            TotalAssignment ta = new TotalAssignment(assign, 90);
+//            ArrayList<TAssign> tassigntemp = new ArrayList<TAssign>();
+//            TAssign t = new TAssign();
+//
+//            for (int i = 0; i < assign.size(); i++) {
+//                UserAssignment userAssign = gd.GetGrade(1, 1, assign.get(i).getAssignmentId());
+//                t.setUserAssign(userAssign);
+//                tassigntemp.add(t);
+//                System.out.println("out " + t.getUserAssign().getScore());
+//            }
+//
+//            ta.setTassign(tassigntemp);
+//
+//            session.setAttribute("tassign", ta.getTassign());
+//            return new ModelAndView("courseGrades", "ta", ta);
+//        } else {
+//            ArrayList<Assignment> assign = ad.GetAssignments(1);
+//            ArrayList<TUser> tuserarr = ud.GetPeople2(1);
+//            TotalAssignment ta = new TotalAssignment(assign, 90);
+//            ArrayList<TAssign> tassigntemp = new ArrayList<TAssign>();
+//            TAssign t = new TAssign();
+//            for (int j = 0; j < tuserarr.size(); j++) {
+//                int tempid = tuserarr.get(j).getUserId();
+//                for (int i = 0; i < assign.size(); i++) {
+//                    UserAssignment userAssign = gd.GetGrade(tempid, 1, assign.get(i).getAssignmentId());
+//                    t.setUserAssign(userAssign);
+//                    t.settUser(tuserarr.get(j));
+//                    tassigntemp.add(t);
+//                    System.out.println("out " + t.gettUser().getUserName());
+//                }
+//
+//            }
+//            ta.setTassign(tassigntemp);
+//
+//            //System.out.println("tuserarr " + tuserarr.get(0).getUserName());
+//            return new ModelAndView("courseGrades", "ta", ta);
+//        }
+    }
+
 }

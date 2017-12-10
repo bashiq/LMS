@@ -15,7 +15,6 @@ import orm.UserAssignment;
  */
 public interface GradeDao {
     public int GradeAssignment(UserAssignment ua);
-    public ArrayList<UserAssignment> GetGrades(int userID, int courseID, 
-            ArrayList<Assignment> at);
+    public UserAssignment GetGrade(int userID, int courseID, int assignmentID);
     public ArrayList<UserAssignment> GetGrades(int CourseID);
 }

@@ -4,6 +4,9 @@
     Author     : Bilal
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.TAssign"%>
+<%@page import="orm.TUser"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -39,35 +42,46 @@
             </div>
 
             <!--Conditional statement for professor vs student view-->
-            <%if (true) {%>
-            <table>
+            <%
+                TUser tu = (TUser) session.getAttribute("tUser");
+            %>
+            <% if (tu.getRoleId() == 2) {%>
 
-                <tr>
-                    <th>Stu Name</th>
-                        <c:forEach items="${assignmentNameloop}" var="value">
-                        <th>Assignment 1<br />Out of 10</th>
-                        <th>Assignment 2<br />Out of 10</th>
-                        <th>Assignment 3<br />Out of 10</th>
-                        </c:forEach>
-                    <th> Total</th>
-                </tr>
-                <c:forEach items="${userloop}" var="value">
+
+            <c:forEach items="${ta.getAssignment()}" var="assign">
+                <p>${assign.getAssignmentName()}</p>
+                <table>
+
                     <tr>
-                        <td>John Doe</td>
-                        <c:forEach items="${assignmentsloopforuser}" var="value">
-                            <td><form> <input type="text" size="3" name = ass1JoeDoe> <input type="submit" value="update"></form></td>
-                            <td><form> <input type="text" size="3" name = ass2JoeDoe> <input type="submit" value="update"></form></td>
-                            <td><form> <input type="text" size="3" name = ass3JoeDoe> <input type="submit" value="update"></form></td>
-                            <td>93%</td>
-                        </c:forEach>
+                        <th>Student Name</th>
+                        <th>Submission</th>
+                        <th>Grade<br />${assign.getPotentialScore()}</th>
                     </tr>
-                </c:forEach>
-            </table>
-            <br /><br />
+
+                    <c:forEach items="${ta.getTassign()}" var="tuse" varStatus = "loopCount" >
+                        <tr>
+                            <td>${tuse.gettUser().getUserName()}</td>
+                            <td>${tuse.getUserAssign().getUserAssignmentSubmission()}</td>
+                            <td><form> <input type="text" size="3" name ="" value ="${tuse.getUserAssign().getScore()}" > <input type="submit" value="update"></form></td--%>
+
+                        </tr>
+                    </c:forEach>
+
+                </table>
+                <br /><br />
+            </c:forEach>
+
 
 
             <!--Table user grades goes here-->
             <%} else {%>
+            <%
+                ArrayList<TAssign> tassign = (ArrayList<TAssign>) session.getAttribute("tassign");
+                session.removeAttribute("tassign");
+                int i = 0;
+                System.out.println("his "+ tassign.get(i).getUserAssign().getScore());
+            %>
+
             <table>
 
                 <tr>
@@ -75,16 +89,16 @@
                     <th>Score</th>
                     <th>Out of</th>
                 </tr>
-                <c:forEach items="${totalassignmentobj}" var="value">
+                <c:forEach items="${ta.getAssignment()}" var="value">
                     <tr>
-                        <td>${value.blah}</td>
-                        <td>${value.blah}</td>
-                        <td>${value.blah}</td>
+                        <td>${value.getAssignmentName()}</td>
+                        <td><%= tassign.get(i).getUserAssign().getScore() %></td>
+                        <td>${value.getPotentialScore()}</td>
                     </tr>
+                    <% i++;%>
                 </c:forEach>
                  <tr>
                     <td colspan="2"> Total: <c:out value="${cart.getCartOrderTotal()}"/></td>
-                    <td>percentage</td>
                     <td>${blah}900/1000</td>
                 </tr>
             </table>
