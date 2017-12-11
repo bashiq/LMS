@@ -76,7 +76,7 @@ public class LoginController implements Controller {// is extends AbstractContro
 
         //need to save tuser in a session var. Would that be done initialized in appContext?-------------------
         session.setAttribute("tUser", tuser);
-        return new ModelAndView("viewCourses", "courses", ud.GetCourses(tuser.getUserId()));
+        return new ModelAndView("viewCourses", "courses", ud.GetCourses(tuser.getUserId(), tuser.getRoleId()));
 
         //System.out.println("tuserarr " + tuserarr.get(0).getUserName());
         
