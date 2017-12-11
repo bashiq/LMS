@@ -44,7 +44,7 @@
                 <% if (tu.getRoleId() == 1) {%>
                 <p><b>Points</b> ${assignment.getPotentialScore()}</p>
                 <p><b>Submitting</b> in text box below</p>
-                <p>${assignment.getAssignmentDescription()} </p>
+                <p>${assignment.assignmentDescription} </p>
 
 
                 <form action ="#"> 
@@ -58,7 +58,7 @@
                     <input type="text" name="assignmentName" value="${assignment.getAssignmentName()}" />
                     <br />
                     Description:<br />
-                    <textarea rows="5" cols="70" name="description">${assignment.getAssignmentDescription()}
+                    <textarea rows="5" cols="70" name="description">${assignment.assignmentDescription}
                     </textarea>
                     <br />
                     Points:<br/>

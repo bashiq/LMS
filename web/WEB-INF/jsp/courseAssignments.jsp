@@ -53,12 +53,12 @@
 
                     <tr>
                         <td>
-                            <form action ="#">
+                           <form class="login.htm/people" method ="GET">
+                                <input type ="hidden" name ="action" value ="assignment" >
+                                <input type ="hidden" name ="aid" value ="${value.assignmentId}" >
                                 ${value.getAssignmentName()}<br />
                                 Graded yet: ${value.getStringIsGraded()} &nbsp; | ${value.getPotentialScore()} potential points
-                                <input type="hidden" name = "assignmentObj" value="goto blah">
-                                <input type="hidden" name = "action" value="viewAnAssignment">
-                                <input type="hidden" name = "action" value="${value.getAssignmentId()}">
+                                <input type ="Submit" value ="Go">
                             </form>
                         </td>
 

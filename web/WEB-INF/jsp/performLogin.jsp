@@ -32,6 +32,7 @@
 
                 <label><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="password" required class="loginform">
+                <input type ="hidden" name ="action" value ="login">
 
                 <button type="submit" class="loginform">Login</button>
             </form>

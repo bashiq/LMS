@@ -60,35 +60,59 @@ public class LoginController implements Controller {// is extends AbstractContro
     // @RequestMapping(value = "/logo", method = RequestMethod.POST)
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();
-        if (session.getAttribute("tUser") == null) {
+        String act = request.getParameter("action") + "";
+        int forAssign = 0;
+//        if(act.isEmpty()){
+//            return new ModelAndView("performLogin", "invalidLogin", "");
+//        }
+
+        //System.out.println("act is" + act +"p");
+        if (act.equals("login") || act.equals("")) {
+
+            //       if (session.getAttribute("tUser") == null) {
             String username = request.getParameter("username");
             String pass = request.getParameter("password") + "";
-            //System.out.println("pass is |" + pass + "| end");
 
-//            Object objBean = session.getAttribute("UserDao");
-//            UserDao ud = (UserDao) objBean; 
             TUser tuser = ud.Login(username, pass);
             System.out.println("userid is " + tuser.getUserId());
             if (tuser.getUserId() == 0 || tuser.getUserId() == -1) {
                 if (pass.equals("null")) {
-                    System.out.println("in here");
+                    //System.out.println("in here");
                     return new ModelAndView("performLogin", "invalidLogin", "");
                 }
                 return new ModelAndView("performLogin", "invalidLogin", "Invalid Username or password. Try Again");
             }
 
-            //need to save tuser in a session var. Would that be done initialized in appContext?-------------------
             session.setAttribute("tUser", tuser);
             return new ModelAndView("viewCourses", "courses", ud.GetCourses(tuser.getUserId(), tuser.getRoleId()));
-        } else {
-            return new ModelAndView("performLogin", "invalidLogin", "");
+        } //        } else {return new ModelAndView("performLogin", "invalidLogin", "");}
+        else if (act.equals("people")) {
+            return new ModelAndView("coursePeople", "people", ud.GetPeople(Integer.parseInt(request.getParameter("cid"))));
+        } else if (act.equals("grades")) {
+            return toviewGrades(session, Integer.parseInt(request.getParameter("cid")));
+        } else if (act.equals("assignments")) {
+            forAssign = Integer.parseInt(request.getParameter("cid"));
+            session.setAttribute("num", forAssign);
+            return new ModelAndView("courseAssignments", "retAssignments", ad.GetAssignments(forAssign));
+        } else if (act.equals("assignment")) {
+            ArrayList<Assignment> aa = ad.GetAssignments((int)session.getAttribute("num"));
+            Assignment assign = new Assignment();
+            System.out.println("out hur"+ forAssign);
+            for (int i = 0; i < aa.size(); i++) {
+                System.out.println("gaga " + assign.getAssignmentName());
+                if (aa.get(i).getAssignmentId() == Integer.parseInt(request.getParameter("aid"))) {
+                    assign = aa.get(i);
+                }
+            }
+            return new ModelAndView("viewAssignment", "assignment", assign);
         }
+        return new ModelAndView("performLogin", "invalidLogin", "");
 
     }
 
     @RequestMapping(value = "/people", method = RequestMethod.GET)
     public ModelAndView beep(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        System.out.println("in courseController");
+        // System.out.println("in courseController");
         //int cid = Integer.parseInt(request.getParameter("action"));
         return new ModelAndView("coursePeople", "people", ud.GetPeople(1));
     }
@@ -107,49 +131,49 @@ public class LoginController implements Controller {// is extends AbstractContro
 //            return new ModelAndView("viewAssignment", "assignment", assign);
     }
 
-    public void toviewGrades() {
+    public ModelAndView toviewGrades(HttpSession session, int courseId) {
 
-//        TUser tu = (TUser) session.getAttribute("tuser");
-//        if (tu.getRoleId() == 1) {
-//            ArrayList<Assignment> assign = ad.GetAssignments(1);
-//            ArrayList<TUser> tuserarr = ud.GetPeople2(1);
-//            TotalAssignment ta = new TotalAssignment(assign, 90);
-//            ArrayList<TAssign> tassigntemp = new ArrayList<TAssign>();
-//            TAssign t = new TAssign();
-//
-//            for (int i = 0; i < assign.size(); i++) {
-//                UserAssignment userAssign = gd.GetGrade(1, 1, assign.get(i).getAssignmentId());
-//                t.setUserAssign(userAssign);
-//                tassigntemp.add(t);
-//                System.out.println("out " + t.getUserAssign().getScore());
-//            }
-//
-//            ta.setTassign(tassigntemp);
-//
-//            session.setAttribute("tassign", ta.getTassign());
-//            return new ModelAndView("courseGrades", "ta", ta);
-//        } else {
-//            ArrayList<Assignment> assign = ad.GetAssignments(1);
-//            ArrayList<TUser> tuserarr = ud.GetPeople2(1);
-//            TotalAssignment ta = new TotalAssignment(assign, 90);
-//            ArrayList<TAssign> tassigntemp = new ArrayList<TAssign>();
-//            TAssign t = new TAssign();
-//            for (int j = 0; j < tuserarr.size(); j++) {
-//                int tempid = tuserarr.get(j).getUserId();
-//                for (int i = 0; i < assign.size(); i++) {
-//                    UserAssignment userAssign = gd.GetGrade(tempid, 1, assign.get(i).getAssignmentId());
-//                    t.setUserAssign(userAssign);
-//                    t.settUser(tuserarr.get(j));
-//                    tassigntemp.add(t);
-//                    System.out.println("out " + t.gettUser().getUserName());
-//                }
-//
-//            }
-//            ta.setTassign(tassigntemp);
-//
-//            //System.out.println("tuserarr " + tuserarr.get(0).getUserName());
-//            return new ModelAndView("courseGrades", "ta", ta);
-//        }
+        TUser tu = (TUser) session.getAttribute("tUser");
+        if (tu.getRoleId() == 1) {
+            ArrayList<Assignment> assign = ad.GetAssignments(courseId);
+            ArrayList<TUser> tuserarr = ud.GetPeople2(courseId);
+            TotalAssignment ta = new TotalAssignment(assign, 90);
+            ArrayList<TAssign> tassigntemp = new ArrayList<TAssign>();
+            TAssign t = new TAssign();
+
+            for (int i = 0; i < assign.size(); i++) {
+                UserAssignment userAssign = gd.GetGrade(tu.getUserId(), courseId, assign.get(i).getAssignmentId());
+                t.setUserAssign(userAssign);
+                tassigntemp.add(t);
+                System.out.println("out " + t.getUserAssign().getScore());
+            }
+
+            ta.setTassign(tassigntemp);
+
+            session.setAttribute("tassign", ta.getTassign());
+            return new ModelAndView("courseGrades", "ta", ta);
+        } else {
+            ArrayList<Assignment> assign = ad.GetAssignments(courseId);
+            ArrayList<TUser> tuserarr = ud.GetPeople2(courseId);
+            TotalAssignment ta = new TotalAssignment(assign, 90);
+            ArrayList<TAssign> tassigntemp = new ArrayList<TAssign>();
+            TAssign t = new TAssign();
+            for (int j = 0; j < tuserarr.size(); j++) {
+                int tempid = tuserarr.get(j).getUserId();
+                for (int i = 0; i < assign.size(); i++) {
+                    UserAssignment userAssign = gd.GetGrade(tempid, courseId, assign.get(i).getAssignmentId());
+                    t.setUserAssign(userAssign);
+                    t.settUser(tuserarr.get(j));
+                    tassigntemp.add(t);
+                    System.out.println("out " + t.gettUser().getUserName());
+                }
+
+            }
+            ta.setTassign(tassigntemp);
+
+            //System.out.println("tuserarr " + tuserarr.get(0).getUserName());
+            return new ModelAndView("courseGrades", "ta", ta);
+        }
     }
 
 }

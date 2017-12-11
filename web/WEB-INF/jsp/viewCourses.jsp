@@ -26,11 +26,10 @@
                 <c:forEach items="${courses}" var="value">
 
                     <form class="courseCon.htm/people">
-                        <input type="submit" value = "${value.courseId}" class="w3-bar-item w3-button">${value.getCourseName()}</a>
+                        <input type="submit" value = "${value.getCourseName()}" class="w3-bar-item w3-button">
                     </form>
 
-                </c:forEach>
-                <a href="#" class="w3-bar-item w3-button">Course 2</a>               
+                </c:forEach>             
 
             </div>
             <a href="" class="w3-bar-item w3-button w3-padding">Log Off</a> 
@@ -52,19 +51,30 @@
 
 
                 <c:forEach items="${courses}" var="value">
-                    <form class="yellow.htm" method ="GET">
-                        <div class="w3-third w3-margin-bottom">
-                            <div class="w3-container w3-white">
-                                <h3>Course</h3>
-                                <h6 class="w3-opacity">${value.getCourseName()}</h6>
-                                <h6 class="w3-opacity">${value.getSemester()}</h6>
 
-                                <input type="submit" value = "Go to ${value.getCourseName()}" class="w3-button w3-block w3-black w3-margin-bottom">
-                                <input type ="hidden" name ="action" value ="${value.courseId}" >
-
-                            </div>
+                    <div class="w3-third w3-margin-bottom">
+                        <div class="w3-container w3-white">
+                            <h3>Course</h3>
+                            <h6 class="w3-opacity">${value.getCourseName()}</h6>
+                            <h6 class="w3-opacity">${value.getSemester()}</h6>
+                            <form class="login.htm/people" method ="GET">
+                                <input type="submit" value = "Go to People of ${value.getCourseName()}" class="w3-button w3-block w3-black w3-margin-bottom">
+                                <input type ="hidden" name ="action" value ="people" >
+                                <input type ="hidden" name ="cid" value ="${value.courseId}" >
+                            </form> 
+                            <form class="login.htm/people" method ="GET">
+                                <input type="submit" value = "Go to Assignments of ${value.getCourseName()}" class="w3-button w3-block w3-black w3-margin-bottom">
+                                <input type ="hidden" name ="action" value ="assignments" >
+                                <input type ="hidden" name ="cid" value ="${value.courseId}" >
+                            </form> 
+                            <form class="login.htm/people" method ="GET">
+                                <input type="submit" value = "Go to Grades of ${value.getCourseName()}" class="w3-button w3-block w3-black w3-margin-bottom">
+                                <input type ="hidden" name ="action" value ="grades" >
+                                <input type ="hidden" name ="cid" value ="${value.courseId}" >
+                            </form> 
                         </div>
-                    </form>    
+                    </div>
+
                 </c:forEach>
 
             </div>
