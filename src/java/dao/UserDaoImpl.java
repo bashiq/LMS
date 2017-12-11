@@ -15,6 +15,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import orm.Course;
 import orm.CourseInstructor;
+import orm.CourseInstructorId;
 import orm.TUser;
 import orm.UserCourse;
 import orm.UserCourseId;
@@ -91,7 +92,7 @@ public class UserDaoImpl implements UserDao {
      * @return arraylist of courses
      */
     @Override
-    public ArrayList<Course> GetCourses(int id) {
+    public ArrayList<Course> GetCourses(int id, int rank) {
         ArrayList<Course> retCourse = new ArrayList<Course>();
         Session session = factory.openSession();
         Transaction tx = null;
@@ -100,19 +101,32 @@ public class UserDaoImpl implements UserDao {
         try {
             tx = session.beginTransaction();
             List courses = session.createQuery("FROM Course").list();
-            List userCourses = session.createQuery("FROM UserCourse").list();
-            //Query query = session.createQuery("from UserCourse where UserId = :code ");
-            //query.setParameter("code", 1);
-            //List userCourses = query.list();
-            for (int i = 0; i < userCourses.size(); i++) {
-                UserCourse tuc = (UserCourse) userCourses.get(i);
-                UserCourseId tuci = tuc.getId();
-                // System.out.println("hello");
-                for (Iterator iterator2 = courses.iterator(); iterator2.hasNext();) {
-                    Course tc = (Course) iterator2.next();
-                    if (id == tuci.getUserId()) {
-                        System.out.println(tc.getCourseName());
-                        retCourse.add(tc);
+            if (rank == 1) {
+                List userCourses = session.createQuery("FROM UserCourse").list();
+                for (int i = 0; i < userCourses.size(); i++) {
+                    UserCourse tuc = (UserCourse) userCourses.get(i);
+                    UserCourseId tuci = tuc.getId();
+                    // System.out.println("hello");
+                    for (Iterator iterator2 = courses.iterator(); iterator2.hasNext();) {
+                        Course tc = (Course) iterator2.next();
+                        if (tc.getCourseId() == tuci.getCourseId()) {
+                            System.out.println(tc.getCourseName());
+                            retCourse.add(tc);
+                        }
+                    }
+                }
+            } else {
+                List courseInstructor = session.createQuery("FROM CourseInstructor").list();
+                for (int i = 0; i < courseInstructor.size(); i++) {
+                    CourseInstructor tuc = (CourseInstructor) courseInstructor.get(i);
+                    CourseInstructorId tuci = tuc.getId();
+                    // System.out.println("hello");
+                    for (Iterator iterator2 = courses.iterator(); iterator2.hasNext();) {
+                        Course tc = (Course) iterator2.next();
+                        if (tc.getCourseId() == tuci.getCourseId()) {
+                            System.out.println(tc.getCourseName());
+                            retCourse.add(tc);
+                        }
                     }
                 }
             }
@@ -137,7 +151,8 @@ public class UserDaoImpl implements UserDao {
      * @return array list of class people
      */
     @Override
-    public ArrayList<People> GetPeople(int courseId) {
+    public ArrayList<People> GetPeople(int courseId
+    ) {
         Session session = factory.openSession();
         Transaction tx = null;
         ArrayList<Integer> pid = new ArrayList<Integer>();
@@ -189,14 +204,16 @@ public class UserDaoImpl implements UserDao {
             return ret;
         }
     }
-     /**
+
+    /**
      * Returns all of the people enrolled in the course
      *
      * @param courseId course id of what your looking for
      * @return array list of class people
      */
     @Override
-    public ArrayList<TUser> GetPeople2(int courseId) {
+    public ArrayList<TUser> GetPeople2(int courseId
+    ) {
         Session session = factory.openSession();
         Transaction tx = null;
         ArrayList<Integer> pid = new ArrayList<Integer>();
@@ -212,7 +229,6 @@ public class UserDaoImpl implements UserDao {
                     pid.add(uc.getId().getUserId());
                 }
             }
-
 
             List tUsers = session.createQuery("FROM TUser").list();
             for (int i = 0; i < tUsers.size(); i++) {

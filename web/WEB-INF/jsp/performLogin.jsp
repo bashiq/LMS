@@ -26,7 +26,7 @@
             <c:remove var="message" scope="session" /> 
 
         <div class="loginContainer">
-            <form class="login.htm">
+            <form class="login.htm" method = "POST">
                 <label><b>Username</b></label>
                 <input type="text" placeholder="Enter Username" name="username" required class="loginform">
 

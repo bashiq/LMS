@@ -19,8 +19,8 @@
     <!--bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
-                <prop key="performLogin">LoginController/prop>
-                <prop key="viewCourses">LoginController</prop>
+                <prop key="login.htm">LoginController/prop>
+                <prop key="yellow">CourseController</prop>
             </props>
         </property>
     </bean-->
@@ -40,6 +40,12 @@
     
     
     <bean name="login.htm" class="controller.LoginController" >
+        <property name ="UserDao1" ref="UserDao" />
+        <property name ="AssignmentDao1" ref="AssignmentDao" />
+        <property name ="GradeDao1" ref="GradeDao" />
+    </bean>
+    
+    <bean name="yellow.htm" class="controller.CourseController" >
         <property name ="UserDao1" ref="UserDao" />
         <property name ="AssignmentDao1" ref="AssignmentDao" />
         <property name ="GradeDao1" ref="GradeDao" />

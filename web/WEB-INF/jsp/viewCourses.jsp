@@ -24,7 +24,11 @@
             </div>
             <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
                 <c:forEach items="${courses}" var="value">
-                    <a href="#" class="w3-bar-item w3-button">${value.getCourseName()}</a>
+
+                    <form class="courseCon.htm/people">
+                        <input type="submit" value = "${value.courseId}" class="w3-bar-item w3-button">${value.getCourseName()}</a>
+                    </form>
+
                 </c:forEach>
                 <a href="#" class="w3-bar-item w3-button">Course 2</a>               
 
@@ -37,27 +41,27 @@
                 <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Courses</h3>
                 <h4> Hello ${tUser.userName}</h4>
             </div>
-            
-            
+
+
 
 
             <!--course objs-->
 
             <div class="w3-row-padding w3-padding-16">
-                
-                
+
+
 
                 <c:forEach items="${courses}" var="value">
-                    <form action ="#" class="#">
+                    <form class="yellow.htm" method ="GET">
                         <div class="w3-third w3-margin-bottom">
                             <div class="w3-container w3-white">
                                 <h3>Course</h3>
                                 <h6 class="w3-opacity">${value.getCourseName()}</h6>
                                 <h6 class="w3-opacity">${value.getSemester()}</h6>
-                                
-                                <button class="w3-button w3-block w3-black w3-margin-bottom">Goto ${value.getCourseName()}</button>
-                                <input type="hidden" name ="action" value="gotoCourse">
-                                <input type="hidden" name ="courseSelection" value="${value.getCourseId()}">
+
+                                <input type="submit" value = "Go to ${value.getCourseName()}" class="w3-button w3-block w3-black w3-margin-bottom">
+                                <input type ="hidden" name ="action" value ="${value.courseId}" >
+
                             </div>
                         </div>
                     </form>    

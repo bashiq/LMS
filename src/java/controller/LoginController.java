@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import orm.Assignment;
@@ -55,31 +57,40 @@ public class LoginController implements Controller {// is extends AbstractContro
 //        System.out.println("here1");
 //      return new ModelAndView("login", "blank", new Object());
 //   }
+    // @RequestMapping(value = "/logo", method = RequestMethod.POST)
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //System.out.println(request.getParameter("username"));
-        String username = request.getParameter("username");
-        String pass = request.getParameter("password") + "";
-        System.out.println("pass is |" + pass + "| end");
-
         HttpSession session = request.getSession();
+        if (session.getAttribute("tUser") == null) {
+            String username = request.getParameter("username");
+            String pass = request.getParameter("password") + "";
+            //System.out.println("pass is |" + pass + "| end");
+
 //            Object objBean = session.getAttribute("UserDao");
 //            UserDao ud = (UserDao) objBean; 
-        TUser tuser = ud.Login(username, pass);
-        System.out.println("userid is " + tuser.getUserId());
-        if (tuser.getUserId() == 0 || tuser.getUserId() == -1) {
-            if (pass.equals("null")) {
-                System.out.println("in here");
-                return new ModelAndView("performLogin", "invalidLogin", "");
+            TUser tuser = ud.Login(username, pass);
+            System.out.println("userid is " + tuser.getUserId());
+            if (tuser.getUserId() == 0 || tuser.getUserId() == -1) {
+                if (pass.equals("null")) {
+                    System.out.println("in here");
+                    return new ModelAndView("performLogin", "invalidLogin", "");
+                }
+                return new ModelAndView("performLogin", "invalidLogin", "Invalid Username or password. Try Again");
             }
-            return new ModelAndView("performLogin", "invalidLogin", "Invalid Username or password. Try Again");
+
+            //need to save tuser in a session var. Would that be done initialized in appContext?-------------------
+            session.setAttribute("tUser", tuser);
+            return new ModelAndView("viewCourses", "courses", ud.GetCourses(tuser.getUserId(), tuser.getRoleId()));
+        } else {
+            return new ModelAndView("performLogin", "invalidLogin", "");
         }
 
-        //need to save tuser in a session var. Would that be done initialized in appContext?-------------------
-        session.setAttribute("tUser", tuser);
-        return new ModelAndView("viewCourses", "courses", ud.GetCourses(tuser.getUserId()));
+    }
 
-        //System.out.println("tuserarr " + tuserarr.get(0).getUserName());
-        
+    @RequestMapping(value = "/people", method = RequestMethod.GET)
+    public ModelAndView beep(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.out.println("in courseController");
+        //int cid = Integer.parseInt(request.getParameter("action"));
+        return new ModelAndView("coursePeople", "people", ud.GetPeople(1));
     }
 
     public void PeopleMethod() {
